@@ -1,0 +1,22 @@
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+
+    # App
+    app_env: str = "development"
+    app_debug: bool = False
+    app_host: str = "0.0.0.0"
+    app_port: int = 8000
+
+    # Supabase
+    supabase_url: str
+    supabase_key: str
+
+    # Scraper
+    scraper_headless: bool = True
+    scraper_timeout_ms: int = 30_000
+
+
+settings = Settings()
