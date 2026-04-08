@@ -76,11 +76,7 @@ def run_migrations(client: Client) -> list[str]:
 
 
 def run_seed(client: Client) -> None:
-    """Apply seed.sql unconditionally (idempotent via ON CONFLICT)."""
-    seed_path = MIGRATIONS_DIR / "seed.sql"
-    if not seed_path.exists():
-        print("  [skip] no seed.sql found")
-        return
-    sql = seed_path.read_text(encoding="utf-8").strip()
-    _execute_sql(client, sql)
-    print("  [ok] seed applied")
+    """Insert seed data using the Supabase table API (idempotent via upsert)."""
+    from src.infrastructure.database.seed_data import seed_all
+
+    seed_all(client)
